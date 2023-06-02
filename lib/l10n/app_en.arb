@@ -1,0 +1,58 @@
+{
+  "helloWorld": "Hello World!",
+  "newWord": "New Word",
+  "@newWord": {
+     "description": "The conventional newborn programmer greeting"
+  },
+  "receive": "Receive",
+  "@receive": {
+      "description": "The conventional newborn programmer greeting"
+  },
+  "transfer": "Transfer",
+    "@transfer": {
+        "description": "The conventional newborn programmer greeting"
+    },
+  "withdraw": "Withdraw",
+    "@withdraw": {
+        "description": "The conventional newborn programmer greeting"
+    },
+  "askAFriend": "Ask a Friend",
+  "qPay": "QPay",
+  "askAFriendDescription": "From here you can ask your friend for money",
+  "enterFriendEmail": "Enter Friend's email",
+  "amount": "Amount",
+  "sendRequest": "Send Request",
+  "transferMoney": "Transfer Money",
+  "transferMoneyDescription": "From here you can transfer money to your friends",
+  "transfer": "Transfer",
+  "fillAllFieldsFirst": "Please fill out all the fields first",
+  "hassleFreeTransactions": "Hassle free transactions",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "dontHaveAnAccount": "Don't have an account?",
+  "signUp": "Sign Up",
+  "userName": "User Name",
+  "phoneNumber": "Phone Number",
+  "alreadyHaveAnAccount": "Already have an account?",
+  "scanACode": "Scan a code",
+  "transactionDetails": "Transaction Details",
+  "receiverEmail": "Receiver Email",
+  "amountToPay": "Amount to pay",
+  "reasonForPayment": "Reason for Payment",
+  "rentGroceries": "Rent, groceries, etc",
+  "submit": "Submit",
+  "hello": "Hello",
+  "accountBalance": "Account Balance",
+  "rs": "Rs.",
+  "promotions": "Promotions",
+  "rewards": "Rewards",
+  "transactionHistory": "Transaction History",
+  "noTransactions": "No Transactions",
+  "to": "To",
+  "inbox": "Inbox",
+  "noNotifications": "No Notifications",
+  "myProfile": "My Profile",
+  "updateProfile": "Update Profile",
+  "profileUpdated": "Profile Updated"
+}
