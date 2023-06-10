@@ -1,4 +1,6 @@
 import 'package:bidverse_frontend/providers/locale_provider.dart';
+import 'package:bidverse_frontend/providers/user_provider.dart';
+import 'package:bidverse_frontend/screens/login_screen.dart';
 import 'package:bidverse_frontend/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LocaleProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
       ],
       builder: (context, child) {
         LocaleProvider localeProvider = Provider.of<LocaleProvider>(context);
@@ -38,7 +41,7 @@ class MyApp extends StatelessWidget {
           ],
           debugShowCheckedModeBanner: false,
           home: Scaffold(
-            body: SplashScreen(),
+            body: LoginScreen(),
           ),
         );
       },
