@@ -19,8 +19,8 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
 
   // Controllers
-  TextEditingController emailController = TextEditingController(text: 'test@gmail.com');
-  TextEditingController passwordController = TextEditingController(text: '123456789');
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   // Providers
   UserProvider userProvider = UserProvider();
@@ -125,11 +125,16 @@ class LoginScreen extends StatelessWidget {
                       child: CustomButton(
                         title: AppLocalizations.of(context)!.login,
                         onPressed: () async {
-                          print("Login");
-                          bool result = await _handleLogin(context);
-
-                          if (result) {
-                            print(result);
+                          if (emailController.text == '' || passwordController.text == '') {
+                            ScaffoldMessenger.of(context).showSnackBar(customSnackBar('Please fill out all the fields first'));
+                          } else {
+                            bool result = await _handleLogin(context);
+                            if (result) {
+                              print("Successful login");
+                            }
+                            // else {
+                            //   ScaffoldMessenger.of(context).showSnackBar(customSnackBar('Something went wrong'));
+                            // }
                           }
                         },
                       ),

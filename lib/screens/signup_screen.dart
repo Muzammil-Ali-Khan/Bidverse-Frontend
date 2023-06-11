@@ -162,8 +162,20 @@ class SignUpScreen extends StatelessWidget {
                       child: CustomButton(
                           title: AppLocalizations.of(context)!.signUp,
                           onPressed: () async {
-                            bool result = await _handleSignup(context);
-                            print(result);
+                            if (emailController.text == '' ||
+                                passwordController.text == '' ||
+                                nameController.text == '' ||
+                                numberController.text == '') {
+                              ScaffoldMessenger.of(context).showSnackBar(customSnackBar('Please fill out all the fields first'));
+                            } else {
+                              bool result = await _handleSignup(context);
+                              if (result) {
+                                print("Successful signup");
+                              }
+                              // else {
+                              //   ScaffoldMessenger.of(context).showSnackBar(customSnackBar('Something went wrong'));
+                              // }
+                            }
                           }),
                     ),
                     Center(
