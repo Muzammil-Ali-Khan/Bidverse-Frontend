@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           ],
           debugShowCheckedModeBanner: false,
           home: Scaffold(
-            body: ProductUploadScreen(),
+            body: SplashScreen(),
           ),
         );
       },
