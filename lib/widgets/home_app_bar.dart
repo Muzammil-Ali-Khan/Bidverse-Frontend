@@ -15,11 +15,11 @@ class _HomeAppBarState extends State<HomeAppBar> {
     return AppBar(
       backgroundColor: white,
       centerTitle: true,
-      leading: const Icon(
-        Icons.arrow_back_outlined,
-        size: 25,
-        color: blackColor,
-      ),
+      // leading: const Icon(
+      //   Icons.arrow_back_outlined,
+      //   size: 25,
+      //   color: blackColor,
+      // ),
       title: const Text(
         'Home',
         style: TextStyle(

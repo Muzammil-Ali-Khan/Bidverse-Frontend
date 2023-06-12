@@ -104,7 +104,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: BackButton(),
+          // leading: BackButton(),
           title: Text(
             AppLocalizations.of(context)!.createYourProduct,
           ),
