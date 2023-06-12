@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bidverse_frontend/constants/constants.dart';
+import 'package:bidverse_frontend/screens/home_screen.dart';
 import 'package:bidverse_frontend/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,7 +18,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
     });
   }
 
