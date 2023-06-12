@@ -40,6 +40,15 @@ dependencies:
   provider: ^6.0.5
   badges: ^3.1.1
   curved_navigation_bar: ^1.0.3
+  http:
+  flutter_secure_storage:
+  image_picker:
+  path_provider: ^2.0.15
+  path: ^1.8.3
+  permission_handler:
+  firebase_core:
+  firebase_storage:
+  firebase_analytics:
 
 dev_dependencies:
   flutter_test:
