@@ -7,8 +7,7 @@ class ItemsWidget extends StatelessWidget {
   final String price;
   final int number;
   final String off;
-  const ItemsWidget(this.title, this.detail, this.price, this.number, this.off,
-      {super.key});
+  const ItemsWidget(this.title, this.detail, this.price, this.number, this.off, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,20 +21,20 @@ class ItemsWidget extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(color: Color(0xFF4C53A5)),
-                child: Text(
-                  off,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              // Container(
+              //   padding: EdgeInsets.all(5),
+              //   decoration: BoxDecoration(color: Color(0xFF4C53A5)),
+              //   child: Text(
+              //     off,
+              //     style: TextStyle(
+              //       fontSize: 14,
+              //       color: white,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              // ),
               Icon(
                 Icons.favorite_border,
                 color: Colors.red,
@@ -58,8 +57,7 @@ class ItemsWidget extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               title,
-              style: TextStyle(
-                  fontSize: 18, color: blackColor, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, color: blackColor, fontWeight: FontWeight.bold),
             ),
           ),
           Container(

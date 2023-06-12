@@ -19,11 +19,12 @@ class HomeScreen extends StatelessWidget {
           // height: 500,
           padding: EdgeInsets.only(top: 15),
           decoration: BoxDecoration(
-              color: Color(0xFFEDECF2),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular((35)),
-                topRight: Radius.circular(35),
-              )),
+            color: Color(0xFFEDECF2),
+            // borderRadius: BorderRadius.only(
+            //   topLeft: Radius.circular((35)),
+            //   topRight: Radius.circular(35),
+            // ),
+          ),
           child: Column(
             children: [
               Container(
@@ -84,8 +85,7 @@ class HomeScreen extends StatelessWidget {
               ),
               Container(
                 alignment: Alignment.centerLeft,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 child: const Text(
                   "Top Auctions",
                   style: TextStyle(
@@ -95,42 +95,25 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              GridView.count(
-                  childAspectRatio: 0.68,
-                  physics: NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  children: [
-                    ItemsWidget("FT-350", "High heels black colored sandals",
-                        "Rs.4395", 1, "-30%"),
-                    ItemsWidget("FT-350", "High heels black colored sandals",
-                        "Rs.4395", 2, "-30%"),
-                    ItemsWidget("FT-350", "High heels black colored sandals",
-                        "Rs.4395", 3, "-30%"),
-                    ItemsWidget("FT-350", "High heels black colored sandals",
-                        "Rs.4395", 4, "-30%"),
-                    ItemsWidget("FT-350", "High heels black colored sandals",
-                        "Rs.4395", 5, "-30%"),
-                    ItemsWidget("FT-350", "High heels black colored sandals",
-                        "Rs.4395", 6, "-30%"),
-                    ItemsWidget("FT-350", "High heels black colored sandals",
-                        "Rs.4395", 7, "-30%"),
-                  ])
+              GridView.count(childAspectRatio: 0.68, physics: NeverScrollableScrollPhysics(), crossAxisCount: 2, shrinkWrap: true, children: [
+                ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 1, "-30%"),
+                ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 2, "-30%"),
+                ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 3, "-30%"),
+                ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 4, "-30%"),
+                ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 5, "-30%"),
+                ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 6, "-30%"),
+                ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 7, "-30%"),
+              ])
             ],
           ),
         )
       ]),
-      bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.transparent,
-          onTap: (index) {},
-          color: primaryColor,
-          height: 70,
-          items: [
-            Icon(Icons.home, size: 30, color: white),
-            Icon(CupertinoIcons.person, size: 30, color: white),
-            Icon(Icons.upload_outlined, size: 30, color: white),
-            Icon(Icons.favorite_border, size: 30, color: white),
-          ]),
+      bottomNavigationBar: CurvedNavigationBar(backgroundColor: Colors.transparent, onTap: (index) {}, color: primaryColor, height: 70, items: [
+        Icon(Icons.home, size: 30, color: white),
+        Icon(CupertinoIcons.person, size: 30, color: white),
+        Icon(Icons.upload_outlined, size: 30, color: white),
+        Icon(Icons.favorite_border, size: 30, color: white),
+      ]),
     );
   }
 }
