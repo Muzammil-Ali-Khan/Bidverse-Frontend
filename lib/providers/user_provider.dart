@@ -9,6 +9,11 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  updateFavourites(List<String> favourites) {
+    user!.favourites = favourites;
+    notifyListeners();
+  }
+
   deleteUser() {
     UserModel? newUser;
     user = newUser;

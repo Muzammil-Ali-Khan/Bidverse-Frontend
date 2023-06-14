@@ -4,4 +4,8 @@ class URLS {
 
   // products
   static const createProduct = '/v1/product/createProduct';
+  static const getProducts = '/v1/product/';
+
+  // user
+  static const favouriteProduct = '/v1/favourites/';
 }

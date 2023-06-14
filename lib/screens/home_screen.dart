@@ -1,21 +1,96 @@
-import 'package:bidverse_frontend/widgets/home_app_bar.dart';
+import 'package:bidverse_frontend/constants/urls.dart';
+import 'package:bidverse_frontend/models/UserModel.dart';
+import 'package:bidverse_frontend/providers/user_provider.dart';
+import 'package:bidverse_frontend/services/http_service.dart';
+import 'package:bidverse_frontend/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/constants.dart';
+import '../models/ProductModel.dart';
 import '../widgets/categories.dart';
 import '../widgets/items.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<ProductModel> allProducts = [];
+  List<ProductModel?> featuredProducts = [];
+  List<ProductModel?> nonFeaturedAndDisplayProducts = [];
+
+  List<String> categories = ["Fashion", "Electronics", "Furnitures", "Others"];
+  String selectedCategory = '';
+
+  TextEditingController searchFieldText = TextEditingController();
+  UserProvider userProvider = UserProvider();
+
+  Future<bool> _fetchProducts() async {
+    var response = await HttpService.get(URLS.getProducts, withAuth: true);
+
+    if (response.success) {
+      setState(() {
+        allProducts = (response.data!['products'] as List).map((prod) => ProductModel.fromJson(prod)).toList();
+        featuredProducts = allProducts.map((prod) {
+          if (prod.isFeatured) {
+            return prod;
+          }
+        }).toList();
+        featuredProducts.removeWhere((element) => element == null);
+        nonFeaturedAndDisplayProducts = allProducts.map((prod) {
+          if (!prod.isFeatured) {
+            return prod;
+          }
+        }).toList();
+        nonFeaturedAndDisplayProducts.removeWhere((element) => element == null);
+      });
+
+      return true;
+    } else {
+      debugPrint("Error: ${response.error}");
+      return false;
+    }
+  }
+
+  Future<bool> _handleFavourite(String id) async {
+    List<String> fav = userProvider.user!.favourites.contains(id)
+        ? userProvider.user!.favourites.where((element) => element != id).toList()
+        : [...userProvider.user!.favourites, id];
+
+    var data = {'userId': userProvider.user!.id, 'favourites': fav};
+
+    var response = await HttpService.put(URLS.favouriteProduct, data: data, withAuth: true);
+
+    if (response.success) {
+      userProvider.setUser(UserModel.fromJson(response.data!['user'] as Map<String, dynamic>));
+
+      return true;
+    } else {
+      debugPrint("Error: ${response.error}");
+      return false;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fetchProducts();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
+
     return ListView(children: [
-      HomeAppBar(),
+      CustomAppBar("Home"),
       Container(
-        // height: 500,
-        padding: EdgeInsets.only(top: 15),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.only(top: 15),
+        decoration: const BoxDecoration(
           color: Color(0xFFEDECF2),
           // borderRadius: BorderRadius.only(
           //   topLeft: Radius.circular((35)),
@@ -25,8 +100,8 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               height: 50,
               decoration: BoxDecoration(
                 color: white,
@@ -34,21 +109,35 @@ class HomeScreen extends StatelessWidget {
               ),
               child: Row(children: [
                 Container(
-                  margin: EdgeInsets.only(left: 5),
+                  margin: const EdgeInsets.only(left: 5),
                   height: 50,
                   width: 200,
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    controller: searchFieldText,
+                    onChanged: (value) {
+                      if (value != '') {
+                        setState(() {
+                          nonFeaturedAndDisplayProducts = allProducts
+                              .where((element) => element.name.toLowerCase().contains(value.toLowerCase()) && !element.isFeatured)
+                              .toList();
+                        });
+                      } else {
+                        setState(() {
+                          nonFeaturedAndDisplayProducts = allProducts.where((element) => !element.isFeatured).toList();
+                        });
+                      }
+                    },
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                       hintText: "Search here...",
                     ),
                   ),
                 ),
-                Spacer(),
-                Icon(
-                  Icons.camera_alt,
-                  size: 27,
-                ),
+                const Spacer(),
+                // const Icon(
+                //   Icons.camera_alt,
+                //   size: 27,
+                // ),
               ]),
             ),
             Container(
@@ -69,16 +158,34 @@ class HomeScreen extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: [
-                  Categories("Sandals", 1),
-                  Categories("Watch", 2),
-                  Categories("Bag", 3),
-                  Categories("Hand Carrier", 4),
-                  Categories("Bag", 5),
-                  Categories("Sandals", 6),
-                  Categories("Watch", 7),
-                ],
-              ),
+                  children: categories
+                      .map((cat) => GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (selectedCategory == cat) {
+                                selectedCategory = '';
+                              } else {
+                                selectedCategory = cat;
+                              }
+                              if (selectedCategory != '') {
+                                nonFeaturedAndDisplayProducts = allProducts.map((prod) {
+                                  if (prod.category == selectedCategory && !prod.isFeatured) {
+                                    return prod;
+                                  }
+                                }).toList();
+                                nonFeaturedAndDisplayProducts.removeWhere((element) => element == null);
+                              } else {
+                                nonFeaturedAndDisplayProducts = allProducts.map((prod) {
+                                  if (!prod.isFeatured) {
+                                    return prod;
+                                  }
+                                }).toList();
+                                nonFeaturedAndDisplayProducts.removeWhere((element) => element == null);
+                              }
+                            });
+                          },
+                          child: Categories(cat, selectedCategory == cat)))
+                      .toList()),
             ),
             Container(
               alignment: Alignment.centerLeft,
@@ -92,15 +199,42 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            GridView.count(childAspectRatio: 0.68, physics: NeverScrollableScrollPhysics(), crossAxisCount: 2, shrinkWrap: true, children: [
-              ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 1, "-30%"),
-              ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 2, "-30%"),
-              ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 3, "-30%"),
-              ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 4, "-30%"),
-              ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 5, "-30%"),
-              ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 6, "-30%"),
-              ItemsWidget("FT-350", "High heels black colored sandals", "Rs.4395", 7, "-30%"),
-            ])
+            GridView.count(
+              childAspectRatio: 0.68,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              children: featuredProducts
+                  .map(
+                    (prod) => ItemsWidget(prod!.name, prod.description, prod.price, prod.image, prod.id, _handleFavourite),
+                  )
+                  .toList(),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              child: const Text(
+                "All Products",
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: blackColor,
+                ),
+              ),
+            ),
+            nonFeaturedAndDisplayProducts.isEmpty
+                ? Text("No Products")
+                : GridView.count(
+                    childAspectRatio: 0.68,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    children: nonFeaturedAndDisplayProducts
+                        .map(
+                          (prod) => ItemsWidget(prod!.name, prod.description, prod.price, prod.image, prod.id, _handleFavourite),
+                        )
+                        .toList(),
+                  )
           ],
         ),
       )

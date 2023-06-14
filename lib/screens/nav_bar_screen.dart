@@ -1,9 +1,9 @@
-// import 'package:bidverse_frontend/widgets/home_app_bar.dart';
+// import 'package:bidverse_frontend/widgets/custom_app_bar.dart';
 import 'package:bidverse_frontend/constants/constants.dart';
 import 'package:bidverse_frontend/screens/home_screen.dart';
 import 'package:bidverse_frontend/screens/product_upload_screen.dart';
 import 'package:bidverse_frontend/widgets/categories.dart';
-import 'package:bidverse_frontend/widgets/home_app_bar.dart';
+import 'package:bidverse_frontend/widgets/custom_app_bar.dart';
 import 'package:bidverse_frontend/widgets/items.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

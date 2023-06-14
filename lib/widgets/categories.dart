@@ -3,34 +3,37 @@ import 'package:flutter/material.dart';
 
 class Categories extends StatelessWidget {
   final String title;
-  final int number;
-  const Categories(this.title, this.number, {super.key});
+  final bool isSelected;
+  const Categories(this.title, this.isSelected, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: 10,
+        horizontal: 6,
       ),
       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: BoxDecoration(
-        color: white,
+        color: isSelected ? primaryColor : white,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(
-            "images/$number.png",
-            width: 40,
-            height: 40,
-          ),
-          Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 17,
-              color: blackColor,
+          // Image.asset(
+          //   "images/$number.png",
+          //   width: 40,
+          //   height: 40,
+          // ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 17,
+                color: isSelected ? white : blackColor,
+              ),
             ),
           )
         ],

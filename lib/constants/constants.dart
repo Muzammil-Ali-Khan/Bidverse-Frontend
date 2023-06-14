@@ -7,6 +7,7 @@ const white = Colors.white;
 const greyTextFieldText = Color(0xFF6F6F6F);
 const greyBackground = Color(0xFFDAE1E7);
 const blackColor = Colors.black;
+const lightGreyBackground = Color(0xFFEDECF2);
 
 // Images
 const logoWithoutBg = "assets/images/logoWithoutBg.png";

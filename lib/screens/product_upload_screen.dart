@@ -7,6 +7,7 @@ import 'package:bidverse_frontend/services/storage_service.dart';
 import 'package:bidverse_frontend/utils/permissions.dart';
 import 'package:bidverse_frontend/utils/save_image.dart';
 import 'package:bidverse_frontend/utils/upload_image.dart';
+import 'package:bidverse_frontend/widgets/custom_app_bar.dart';
 import 'package:bidverse_frontend/widgets/custom_button.dart';
 import 'package:bidverse_frontend/widgets/custom_snackbar.dart';
 import 'package:bidverse_frontend/widgets/custom_textfield.dart';
@@ -106,17 +107,19 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          // leading: BackButton(),
-          title: Text(
-            AppLocalizations.of(context)!.createYourProduct,
-          ),
-          backgroundColor: primaryColor,
-        ),
+        // appBar: AppBar(
+        //   // leading: BackButton(),
+        //   title: Text(
+        //     AppLocalizations.of(context)!.createYourProduct,
+        //   ),
+        //   backgroundColor: primaryColor,
+        // ),
+        backgroundColor: white,
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              CustomAppBar(AppLocalizations.of(context)!.createYourProduct),
               const SizedBox(height: 10.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
