@@ -5,7 +5,11 @@ import 'package:bidverse_frontend/constants/constants.dart';
 import 'package:bidverse_frontend/constants/urls.dart';
 import 'package:bidverse_frontend/models/UserModel.dart';
 import 'package:bidverse_frontend/providers/user_provider.dart';
+import 'package:bidverse_frontend/screens/login_screen.dart';
+import 'package:bidverse_frontend/screens/user_bidded_products.dart';
+import 'package:bidverse_frontend/screens/user_products_screen.dart';
 import 'package:bidverse_frontend/services/http_service.dart';
+import 'package:bidverse_frontend/services/storage_service.dart';
 import 'package:bidverse_frontend/utils/permissions.dart';
 import 'package:bidverse_frontend/utils/save_image.dart';
 import 'package:bidverse_frontend/widgets/arrow_container.dart';
@@ -68,8 +72,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var response = await HttpService.put(URLS.updateUser, data: data, withAuth: true);
 
     if (response.success) {
-      print(response.data);
-      userProvider.setUser(UserModel.fromJson(response.data!['user'] as Map<String, dynamic>));
+      UserModel user = UserModel.fromJson(response.data!['user'] as Map<String, dynamic>);
+      userProvider.setUser(user);
+      StorageService.setAuthUser(user);
 
       return true;
     } else {
@@ -94,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CustomAppBar("Profile"),
+            CustomAppBar(title: "Profile"),
             const SizedBox(height: 20.0),
             GestureDetector(
               onTap: () async {
@@ -176,11 +181,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // const SizedBox(height: 20.0),
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: GestureDetector(onTap: () {}, child: ArrowContainer(title: "Your Products")),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => UserProductsScreen()));
+                  },
+                  child: const ArrowContainer(title: "Your Products")),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-              child: GestureDetector(onTap: () {}, child: ArrowContainer(title: "Your Bidded Products")),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => UserBiddedProductsScreen()));
+                  },
+                  child: const ArrowContainer(title: "Your Bidded Products")),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+              child: GestureDetector(
+                  onTap: () {
+                    StorageService.deleteAuthUser();
+                    StorageService.deleteAuthToken();
+                    userProvider.deleteUser();
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                  },
+                  child: const ArrowContainer(title: "Logout")),
             ),
           ],
         ),

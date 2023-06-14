@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatefulWidget {
   final String title;
+  bool backArrow = false;
 
-  const CustomAppBar(this.title, {super.key});
+  CustomAppBar({required this.title, this.backArrow = false, super.key});
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -27,11 +28,18 @@ class _CustomAppBarState extends State<CustomAppBar> {
     return AppBar(
       backgroundColor: white,
       // centerTitle: true,
-      // leading: const Icon(
-      //   Icons.arrow_back_outlined,
-      //   size: 25,
-      //   color: blackColor,
-      // ),
+      leading: widget.backArrow
+          ? GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(
+                Icons.arrow_back_outlined,
+                size: 25,
+                color: blackColor,
+              ),
+            )
+          : null,
       title: Text(
         widget.title,
         style: const TextStyle(

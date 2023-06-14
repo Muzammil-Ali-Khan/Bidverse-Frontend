@@ -2,6 +2,7 @@ import 'package:bidverse_frontend/constants/urls.dart';
 import 'package:bidverse_frontend/models/UserModel.dart';
 import 'package:bidverse_frontend/providers/user_provider.dart';
 import 'package:bidverse_frontend/services/http_service.dart';
+import 'package:bidverse_frontend/services/storage_service.dart';
 import 'package:bidverse_frontend/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
     var response = await HttpService.put(URLS.favouriteProduct, data: data, withAuth: true);
 
     if (response.success) {
-      userProvider.setUser(UserModel.fromJson(response.data!['user'] as Map<String, dynamic>));
+      UserModel user = UserModel.fromJson(response.data!['user'] as Map<String, dynamic>);
+      userProvider.setUser(user);
+      StorageService.setAuthUser(user);
 
       return true;
     } else {
@@ -87,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
     userProvider = Provider.of<UserProvider>(context);
 
     return ListView(children: [
-      CustomAppBar("Home"),
+      CustomAppBar(title: "Home"),
       Container(
         padding: const EdgeInsets.only(top: 15),
         decoration: const BoxDecoration(

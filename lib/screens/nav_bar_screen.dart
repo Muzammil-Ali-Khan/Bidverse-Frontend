@@ -1,5 +1,6 @@
 // import 'package:bidverse_frontend/widgets/custom_app_bar.dart';
 import 'package:bidverse_frontend/constants/constants.dart';
+import 'package:bidverse_frontend/screens/favourites_screen.dart';
 import 'package:bidverse_frontend/screens/home_screen.dart';
 import 'package:bidverse_frontend/screens/product_upload_screen.dart';
 import 'package:bidverse_frontend/screens/profile_screen.dart';
@@ -25,9 +26,11 @@ class _NavBarScreenState extends State<NavBarScreen> {
     return Scaffold(
       body: pageIndex == 0
           ? HomeScreen()
-          : pageIndex == 2
-              ? ProductUploadScreen()
-              : ProfileScreen(),
+          : pageIndex == 1
+              ? FavouritesScreen()
+              : pageIndex == 2
+                  ? ProductUploadScreen()
+                  : ProfileScreen(),
       bottomNavigationBar: CurvedNavigationBar(
           backgroundColor: Colors.transparent,
           onTap: (index) {

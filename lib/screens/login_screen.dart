@@ -133,7 +133,7 @@ class LoginScreen extends StatelessWidget {
                             bool result = await _handleLogin(context);
                             if (result) {
                               print("Successful login");
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => NavBarScreen()));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavBarScreen()));
                             }
                             // else {
                             //   ScaffoldMessenger.of(context).showSnackBar(customSnackBar('Something went wrong'));

@@ -119,7 +119,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              CustomAppBar(AppLocalizations.of(context)!.createYourProduct),
+              CustomAppBar(title: AppLocalizations.of(context)!.createYourProduct),
               const SizedBox(height: 10.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
