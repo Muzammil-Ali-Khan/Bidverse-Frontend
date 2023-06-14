@@ -1,7 +1,9 @@
 import 'package:bidverse_frontend/providers/locale_provider.dart';
 import 'package:bidverse_frontend/providers/user_provider.dart';
+import 'package:bidverse_frontend/screens/home_screen.dart';
 import 'package:bidverse_frontend/screens/login_screen.dart';
 import 'package:bidverse_frontend/screens/product_upload_screen.dart';
+import 'package:bidverse_frontend/screens/products_screen.dart';
 import 'package:bidverse_frontend/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +47,7 @@ class MyApp extends StatelessWidget {
           ],
           debugShowCheckedModeBanner: false,
           home: Scaffold(
-            body: SplashScreen(),
+            body: ProductsScreen(),
           ),
         );
       },

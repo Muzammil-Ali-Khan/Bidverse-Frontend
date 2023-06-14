@@ -2,26 +2,26 @@ import 'package:bidverse_frontend/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 
-class HomeAppBar extends StatefulWidget {
-
-  const HomeAppBar({super.key});
+class ProductAppBar extends StatefulWidget {
+  const ProductAppBar({super.key});
 
   @override
-  State<HomeAppBar> createState() => _HomeAppBarState();
+  State<ProductAppBar> createState() => _ProductAppBarState();
 }
 
-class _HomeAppBarState extends State<HomeAppBar> {
+class _ProductAppBarState extends State<ProductAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: white,
       centerTitle: true,
-      // leading: const Icon(
-      //   Icons.arrow_back_outlined,
-      //   size: 25,
-      //   color: blackColor,
-      // ),
-      title: Text("Home",
+      leading: const Icon(
+        Icons.arrow_back_outlined,
+        size: 25,
+        color: blackColor,
+      ),
+      title: Text(
+        "Product",
         style: TextStyle(
           fontSize: 23,
           fontWeight: FontWeight.bold,
