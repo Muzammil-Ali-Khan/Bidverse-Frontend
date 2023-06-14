@@ -2,6 +2,7 @@
 import 'package:bidverse_frontend/constants/constants.dart';
 import 'package:bidverse_frontend/screens/home_screen.dart';
 import 'package:bidverse_frontend/screens/product_upload_screen.dart';
+import 'package:bidverse_frontend/screens/profile_screen.dart';
 import 'package:bidverse_frontend/widgets/categories.dart';
 import 'package:bidverse_frontend/widgets/custom_app_bar.dart';
 import 'package:bidverse_frontend/widgets/items.dart';
@@ -22,7 +23,11 @@ class _NavBarScreenState extends State<NavBarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pageIndex == 0 ? HomeScreen() : ProductUploadScreen(),
+      body: pageIndex == 0
+          ? HomeScreen()
+          : pageIndex == 2
+              ? ProductUploadScreen()
+              : ProfileScreen(),
       bottomNavigationBar: CurvedNavigationBar(
           backgroundColor: Colors.transparent,
           onTap: (index) {
@@ -33,10 +38,10 @@ class _NavBarScreenState extends State<NavBarScreen> {
           color: primaryColor,
           height: 70,
           items: [
-            Icon(Icons.home, size: 30, color: white),
-            Icon(CupertinoIcons.person, size: 30, color: white),
-            Icon(Icons.upload_outlined, size: 30, color: white),
+            Icon(Icons.home_outlined, size: 30, color: white),
             Icon(Icons.favorite_border, size: 30, color: white),
+            Icon(Icons.upload_outlined, size: 30, color: white),
+            Icon(CupertinoIcons.person, size: 30, color: white),
           ]),
     );
   }

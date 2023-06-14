@@ -8,4 +8,5 @@ class URLS {
 
   // user
   static const favouriteProduct = '/v1/favourites/';
+  static const updateUser = '/v1/updateUser/';
 }
