@@ -43,5 +43,6 @@
   "create": "Create",
   "createYourProduct": "Create Your Product",
   "pleaseUploadAnImage": "Please upload an image",
-  "productCreatedSuccessfully": "Product created successfully"
+  "productCreatedSuccessfully": "Product created successfully",
+  "category": "Category"
 }

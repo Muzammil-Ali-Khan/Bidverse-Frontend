@@ -34,6 +34,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
   String imageUrl = '';
   bool isFeatured = false;
   DateTime selectedDate = DateTime.now();
+  List<String> categories = ["Fashion", "Electronics", "Furnitures", "Others"];
+  String selectedCategory = 'Fashion';
 
   // Services
   Permissions permissions = Permissions();
@@ -79,7 +81,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
       'price': priceController.text,
       'image': imageUrl,
       'endTime': selectedDate.toString(),
-      'isFeatured': isFeatured
+      'isFeatured': isFeatured,
+      'category': selectedCategory
     };
 
     var response = await HttpService.post(URLS.createProduct, data: data, withAuth: true);
@@ -135,7 +138,6 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                 child: Text(
                   AppLocalizations.of(context)!.description,
-                  // AppLocalizations.of(context)!.email,
                   style: const TextStyle(fontSize: 16.0),
                 ),
               ),
@@ -152,7 +154,6 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                 child: Text(
                   AppLocalizations.of(context)!.price,
-                  // AppLocalizations.of(context)!.email,
                   style: const TextStyle(fontSize: 16.0),
                 ),
               ),
@@ -163,6 +164,38 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                   controller: priceController,
                   icon: Icons.email_outlined,
                   keyboardType: TextInputType.number,
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Text(
+                  AppLocalizations.of(context)!.category,
+                  style: const TextStyle(fontSize: 16.0),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 6.0),
+                child: Container(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    color: greyBackground,
+                    border: Border.all(color: greyTextFieldText),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: DropdownButton<String>(
+                    value: selectedCategory,
+                    isExpanded: true,
+                    underline: Container(),
+                    dropdownColor: primaryColor,
+                    isDense: true,
+                    items: categories.map((cat) => DropdownMenuItem(value: cat, child: Text(cat))).toList(),
+                    onChanged: (String? cat) {
+                      setState(() {
+                        selectedCategory = cat!;
+                      });
+                    },
+                  ),
                 ),
               ),
               Padding(
