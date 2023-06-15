@@ -49,6 +49,8 @@ dependencies:
   firebase_core:
   firebase_storage:
   firebase_analytics:
+  clippy_flutter:
+  flutter_countdown_timer: ^4.1.0
 
 dev_dependencies:
   flutter_test:

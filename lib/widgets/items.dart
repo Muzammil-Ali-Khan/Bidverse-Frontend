@@ -1,5 +1,6 @@
 import 'package:bidverse_frontend/constants/constants.dart';
 import 'package:bidverse_frontend/providers/user_provider.dart';
+import 'package:bidverse_frontend/screens/single_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,42 +60,52 @@ class _ItemsWidgetState extends State<ItemsWidget> {
               ),
             ],
           ),
-          InkWell(
-            onTap: () {},
-            child: Container(
-              margin: const EdgeInsets.all(10),
-              child: Image.network(
-                widget.image,
-                height: 100,
-                width: 100,
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(bottom: 2),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              widget.title,
-              style: const TextStyle(fontSize: 18, color: blackColor, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-            child: Text(
-              widget.detail,
-              style: const TextStyle(fontSize: 15, color: blackColor),
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.start,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SingleProductScreen(productId: widget.id)));
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  "Rs. ${widget.price}",
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                )
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    margin: const EdgeInsets.all(10),
+                    child: Image.network(
+                      widget.image,
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    widget.title,
+                    style: const TextStyle(fontSize: 18, color: blackColor, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    widget.detail,
+                    style: const TextStyle(fontSize: 15, color: blackColor),
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Rs. ${widget.price}",
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           )

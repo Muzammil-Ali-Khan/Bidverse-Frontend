@@ -84,7 +84,7 @@ class _UserBiddedProductsScreenState extends State<UserBiddedProductsScreen> {
                 ? SizedBox(
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: const Center(
-                      child: Text("No Uploaded Products"),
+                      child: Text("No Bidded Products"),
                     ),
                   )
                 : GridView.count(

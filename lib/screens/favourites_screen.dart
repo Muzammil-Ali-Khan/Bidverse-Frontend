@@ -83,7 +83,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                 ? SizedBox(
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: const Center(
-                      child: Text("No Uploaded Products"),
+                      child: Text("No Favourite Products"),
                     ),
                   )
                 : GridView.count(

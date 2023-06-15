@@ -8,6 +8,8 @@ class URLS {
   static const getUserProducts = '/v1/product/userProducts/';
   static const getUserBiddedProducts = '/v1/product/userBiddedProducts/';
   static const getUserFavouriteProducts = '/v1/product/favourites/';
+  static const getSingleProduct = '/v1/product/';
+  static const updateBidList = '/v1/product/updateBidList/';
 
   // user
   static const favouriteProduct = '/v1/favourites/';
