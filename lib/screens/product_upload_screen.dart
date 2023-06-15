@@ -17,6 +17,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
+import '../models/ProductModel.dart';
+
 class ProductUploadScreen extends StatefulWidget {
   ProductUploadScreen({Key? key}) : super(key: key);
 
@@ -37,9 +39,38 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
   DateTime selectedDate = DateTime.now();
   List<String> categories = ["Fashion", "Electronics", "Furnitures", "Others"];
   String selectedCategory = 'Fashion';
+  List<ProductModel> allProducts = [];
+  List<ProductModel?> featuredProducts = [];
 
   // Services
   Permissions permissions = Permissions();
+
+  Future<bool> _fetchProducts() async {
+    var response = await HttpService.get(URLS.getProducts, withAuth: true);
+
+    if (response.success) {
+      setState(() {
+        allProducts = (response.data!['products'] as List).map((prod) => ProductModel.fromJson(prod)).toList();
+        featuredProducts = allProducts.map((prod) {
+          if (prod.isFeatured) {
+            return prod;
+          }
+        }).toList();
+        featuredProducts.removeWhere((element) => element == null);
+      });
+
+      return true;
+    } else {
+      debugPrint("Error: ${response.error}");
+      return false;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProducts();
+  }
 
   void _handleImageSourcePress(
     BuildContext context,
@@ -307,9 +338,14 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                       } else if (imageUrl == '') {
                         ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.pleaseUploadAnImage));
                       } else {
-                        bool result = await _handleCreateProduct(context);
-                        if (result) {
-                          ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.productCreatedSuccessfully));
+                        print(featuredProducts.length);
+                        if (featuredProducts.length >= 2 && isFeatured) {
+                          ScaffoldMessenger.of(context).showSnackBar(customSnackBar('There is no empty slot for featured products right now'));
+                        } else {
+                          bool result = await _handleCreateProduct(context);
+                          if (result) {
+                            ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.productCreatedSuccessfully));
+                          }
                         }
                       }
                     }),

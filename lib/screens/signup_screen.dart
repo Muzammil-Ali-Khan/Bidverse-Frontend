@@ -172,7 +172,7 @@ class SignUpScreen extends StatelessWidget {
                               bool result = await _handleSignup(context);
                               if (result) {
                                 print("Successful signup");
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavBarScreen()));
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavBarScreen()), (r) => false);
                               }
                               // else {
                               //   ScaffoldMessenger.of(context).showSnackBar(customSnackBar('Something went wrong'));
