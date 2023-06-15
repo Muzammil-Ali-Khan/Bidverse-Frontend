@@ -38,12 +38,31 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   provider: ^6.0.5
-  http: ^1.0.0
-  flutter_secure_storage: ^8.0.0
+  badges: ^3.1.1
+  curved_navigation_bar: ^1.0.3
+  http:
+  flutter_secure_storage:
+  image_picker:
+  path_provider: ^2.0.15
+  path: ^1.8.3
+  permission_handler:
+  firebase_core:
+  firebase_storage:
+  firebase_analytics:
+  clippy_flutter:
+  flutter_countdown_timer: ^4.1.0
+  flutter_stripe: ^9.2.1
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logoWithoutBg.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -69,7 +88,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-  #   - images/a_dot_ham.jpeg
+    - images/
+    - assets/.env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

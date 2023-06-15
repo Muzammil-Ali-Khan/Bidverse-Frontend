@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:bidverse_frontend/constants/constants.dart';
 import 'package:bidverse_frontend/constants/urls.dart';
 import 'package:bidverse_frontend/providers/user_provider.dart';
+import 'package:bidverse_frontend/screens/nav_bar_screen.dart';
+import 'package:bidverse_frontend/screens/product_upload_screen.dart';
 import 'package:bidverse_frontend/screens/signup_screen.dart';
 import 'package:bidverse_frontend/services/http_service.dart';
 import 'package:bidverse_frontend/widgets/custom_button.dart';
@@ -131,6 +133,7 @@ class LoginScreen extends StatelessWidget {
                             bool result = await _handleLogin(context);
                             if (result) {
                               print("Successful login");
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => NavBarScreen()), (r) => false);
                             }
                             // else {
                             //   ScaffoldMessenger.of(context).showSnackBar(customSnackBar('Something went wrong'));
