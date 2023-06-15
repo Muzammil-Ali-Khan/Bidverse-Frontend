@@ -1,4 +1,6 @@
 import 'package:bidverse_frontend/constants/constants.dart';
+import 'package:bidverse_frontend/widgets/bid_button.dart';
+import 'package:bidverse_frontend/widgets/bid_people.dart';
 import 'package:bidverse_frontend/widgets/custom_button.dart';
 import 'package:bidverse_frontend/widgets/home_app_bar.dart';
 import 'package:bidverse_frontend/widgets/product_appbar.dart';
@@ -128,14 +130,177 @@ class ProductsScreen extends StatelessWidget {
 
                               // Returning SizedBox instead of a Container
                               return SizedBox(
-                                height: 200,
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const <Widget>[
-                                      Text('GeeksforGeeks'),
-                                    ],
-                                  ),
+                                height: 700,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      // padding:
+                                      // EdgeInsets.symmetric(vertical: 30),
+                                      height: 100,
+                                      width: 330,
+                                      decoration: const BoxDecoration(
+                                          color: greyBackground,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            alignment: Alignment.centerLeft,
+                                            // padding: EdgeInsets.symmetric(
+                                            //     horizontal: 5),
+                                            height: 90,
+                                            width: 160,
+                                            child: const Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 25,
+                                                      vertical: 5),
+                                                  child: Text(
+                                                    "Starting Price",
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "Rs. 5,000",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    // fontWeight:
+                                                    // FontWeight.bold,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // color: primaryColor,
+                                          ),
+                                          VerticalDivider(
+                                            width: 10,
+                                            color: primaryColor,
+                                          ),
+                                          Container(
+                                            // padding: EdgeInsets.symmetric(
+                                            //     horizontal: 5),
+                                            height: 90,
+                                            width: 160,
+                                            // color: primaryColor,
+                                            child: const Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5),
+                                                  child: Text(
+                                                    "Current Bid",
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "Rs. 24,500",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    // fontWeight:
+                                                    // FontWeight.bold,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 25,
+                                                    vertical: 10),
+                                                child: Text(
+                                                  "Live Auction",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: 20),
+                                                  child: Text("14 Bids Made")),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    BidPeople("Tehreem Zahid", "Rs. 24,500"),
+                                    BidPeople("Tehreem Zahid", "Rs. 24,500"),
+                                    BidPeople("Tehreem Zahid", "Rs. 24,500"),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      // height: 500,
+
+                                      height: 115,
+                                      decoration: BoxDecoration(
+                                        color: greyBackground,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular((20)),
+                                          topRight: Radius.circular(20),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              BidButton(
+                                                  title: "10K",
+                                                  onPressed: () {}),
+                                              BidButton(
+                                                  title: "20K",
+                                                  onPressed: () {}),
+                                              BidButton(
+                                                  title: "30K",
+                                                  onPressed: () {}),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Center(
+                                            child: CustomButton(
+                                              title: "Place bid",
+                                              onPressed: () {},
+                                              width: 320,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               );
                             },
