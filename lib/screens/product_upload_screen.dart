@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bidverse_frontend/constants/constants.dart';
 import 'package:bidverse_frontend/constants/urls.dart';
+import 'package:bidverse_frontend/providers/user_provider.dart';
 import 'package:bidverse_frontend/services/http_service.dart';
 import 'package:bidverse_frontend/services/storage_service.dart';
 import 'package:bidverse_frontend/utils/permissions.dart';
@@ -16,8 +17,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:provider/provider.dart';
 import '../models/ProductModel.dart';
+import 'package:http/http.dart' as http;
 
 class ProductUploadScreen extends StatefulWidget {
   ProductUploadScreen({Key? key}) : super(key: key);
@@ -41,6 +45,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
   String selectedCategory = 'Fashion';
   List<ProductModel> allProducts = [];
   List<ProductModel?> featuredProducts = [];
+  List<ProductModel?> currentUserProducts = [];
+  UserProvider userProvider = UserProvider();
 
   // Services
   Permissions permissions = Permissions();
@@ -57,6 +63,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
           }
         }).toList();
         featuredProducts.removeWhere((element) => element == null);
+        currentUserProducts = allProducts.where((element) => element.userId == userProvider.user!.id).toList();
       });
 
       return true;
@@ -134,17 +141,33 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
     }
   }
 
+  Future<void> makePayment() async {
+    try {
+      //STEP 1: Create Payment Intent
+      var paymentIntent = await createPaymentIntent('100', 'USD');
+
+      //STEP 2: Initialize Payment Sheet
+      await Stripe.instance
+          .initPaymentSheet(
+              paymentSheetParameters: SetupPaymentSheetParameters(
+                  paymentIntentClientSecret: paymentIntent!['client_secret'], //Gotten from payment intent
+                  style: ThemeMode.light,
+                  merchantDisplayName: 'Ikay'))
+          .then((value) {});
+
+      //STEP 3: Display Payment sheet
+      displayPaymentSheet();
+    } catch (err) {
+      throw Exception(err);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
+
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   // leading: BackButton(),
-        //   title: Text(
-        //     AppLocalizations.of(context)!.createYourProduct,
-        //   ),
-        //   backgroundColor: primaryColor,
-        // ),
         backgroundColor: white,
         body: SingleChildScrollView(
           child: Column(
@@ -331,8 +354,27 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: CustomButton(
-                    title: AppLocalizations.of(context)!.create,
-                    onPressed: () async {
+                  title: AppLocalizations.of(context)!.create,
+                  onPressed: () async {
+                    if (currentUserProducts.length >= 3) {
+                      await makePayment().then((value) async {
+                        if (nameController.text == '' || descriptionController.text == '' || priceController.text == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.fillAllFieldsFirst));
+                        } else if (imageUrl == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.pleaseUploadAnImage));
+                        } else {
+                          print(featuredProducts.length);
+                          if (featuredProducts.length >= 2 && isFeatured) {
+                            ScaffoldMessenger.of(context).showSnackBar(customSnackBar('There is no empty slot for featured products right now'));
+                          } else {
+                            bool result = await _handleCreateProduct(context);
+                            if (result) {
+                              ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.productCreatedSuccessfully));
+                            }
+                          }
+                        }
+                      });
+                    } else {
                       if (nameController.text == '' || descriptionController.text == '' || priceController.text == '') {
                         ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.fillAllFieldsFirst));
                       } else if (imageUrl == '') {
@@ -348,7 +390,9 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                           }
                         }
                       }
-                    }),
+                    }
+                  },
+                ),
               )
             ],
           ),
@@ -356,4 +400,85 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
       ),
     );
   }
+
+  createPaymentIntent(String amount, String currency) async {
+    try {
+      //Request body
+      Map<String, dynamic> body = {
+        'amount': amount,
+        'currency': currency,
+      };
+
+      //Make post request to Stripe
+      var response = await http.post(
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        headers: {'Authorization': 'Bearer ${dotenv.env['STRIPE_SECRET']}', 'Content-Type': 'application/x-www-form-urlencoded'},
+        body: body,
+      );
+      return json.decode(response.body);
+    } catch (err) {
+      throw Exception(err.toString());
+    }
+  }
+
+  displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet().then((value) {
+        showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 100.0,
+                      ),
+                      SizedBox(height: 10.0),
+                      Text("Payment Successful!"),
+                    ],
+                  ),
+                ));
+
+        var paymentIntent = null;
+      }).onError((error, stackTrace) {
+        throw Exception(error);
+      });
+    } on StripeException catch (e) {
+      print('Error is:---> $e');
+      AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: const [
+                Icon(
+                  Icons.cancel,
+                  color: Colors.red,
+                ),
+                Text("Payment Failed"),
+              ],
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      print('$e');
+    }
+  }
+  // displayPaymentSheet() async {
+  //   try {
+  //     await Stripe.instance.presentPaymentSheet().then((value) {
+  //       //Clear paymentIntent variable after successful payment
+  //       var paymentIntent = null;
+  //     }).onError((error, stackTrace) {
+  //       throw Exception(error);
+  //     });
+  //   } on StripeException catch (e) {
+  //     print('Error is:---> $e');
+  //   } catch (e) {
+  //     print('$e');
+  //   }
+  // }
 }

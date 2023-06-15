@@ -51,6 +51,8 @@ dependencies:
   firebase_analytics:
   clippy_flutter:
   flutter_countdown_timer: ^4.1.0
+  flutter_stripe: ^9.2.1
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -87,6 +89,7 @@ flutter:
   assets:
     - assets/images/
     - images/
+    - assets/.env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
