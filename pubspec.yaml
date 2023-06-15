@@ -51,6 +51,8 @@ dependencies:
   firebase_analytics:
   clippy_flutter:
   flutter_countdown_timer: ^4.1.0
+  jazzcash_flutter: ^1.0.5
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_test:
