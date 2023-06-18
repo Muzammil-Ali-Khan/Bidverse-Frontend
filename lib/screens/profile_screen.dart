@@ -6,6 +6,7 @@ import 'package:bidverse_frontend/constants/urls.dart';
 import 'package:bidverse_frontend/models/UserModel.dart';
 import 'package:bidverse_frontend/providers/user_provider.dart';
 import 'package:bidverse_frontend/screens/login_screen.dart';
+import 'package:bidverse_frontend/screens/transactions_screen.dart';
 import 'package:bidverse_frontend/screens/user_bidded_products.dart';
 import 'package:bidverse_frontend/screens/user_products_screen.dart';
 import 'package:bidverse_frontend/services/http_service.dart';
@@ -194,6 +195,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => UserBiddedProductsScreen()));
                   },
                   child: const ArrowContainer(title: "Your Bidded Products")),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionsScreen()));
+                  },
+                  child: const ArrowContainer(title: "Transaction History")),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),

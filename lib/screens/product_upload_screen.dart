@@ -38,7 +38,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
 
   // States
   File? image;
-  String imageUrl = '';
+  String imageUrl = "";
   bool isFeatured = false;
   DateTime selectedDate = DateTime.now();
   List<String> categories = ["Fashion", "Electronics", "Furnitures", "Others"];
@@ -145,6 +145,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
     try {
       //STEP 1: Create Payment Intent
       var paymentIntent = await createPaymentIntent('100', 'USD');
+
+      print("Payment intent: $paymentIntent");
 
       //STEP 2: Initialize Payment Sheet
       await Stripe.instance
@@ -357,23 +359,23 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                   title: AppLocalizations.of(context)!.create,
                   onPressed: () async {
                     if (currentUserProducts.length >= 3) {
-                      await makePayment().then((value) async {
-                        if (nameController.text == '' || descriptionController.text == '' || priceController.text == '') {
-                          ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.fillAllFieldsFirst));
-                        } else if (imageUrl == '') {
-                          ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.pleaseUploadAnImage));
+                      if (nameController.text == '' || descriptionController.text == '' || priceController.text == '') {
+                        ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.fillAllFieldsFirst));
+                      } else if (imageUrl == '') {
+                        ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.pleaseUploadAnImage));
+                      } else {
+                        print(featuredProducts.length);
+                        if (featuredProducts.length >= 2 && isFeatured) {
+                          ScaffoldMessenger.of(context).showSnackBar(customSnackBar('There is no empty slot for featured products right now'));
                         } else {
-                          print(featuredProducts.length);
-                          if (featuredProducts.length >= 2 && isFeatured) {
-                            ScaffoldMessenger.of(context).showSnackBar(customSnackBar('There is no empty slot for featured products right now'));
-                          } else {
+                          await makePayment().then((value) async {
                             bool result = await _handleCreateProduct(context);
                             if (result) {
                               ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.productCreatedSuccessfully));
                             }
-                          }
+                          });
                         }
-                      });
+                      }
                     } else {
                       if (nameController.text == '' || descriptionController.text == '' || priceController.text == '') {
                         ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.fillAllFieldsFirst));
@@ -384,9 +386,18 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         if (featuredProducts.length >= 2 && isFeatured) {
                           ScaffoldMessenger.of(context).showSnackBar(customSnackBar('There is no empty slot for featured products right now'));
                         } else {
-                          bool result = await _handleCreateProduct(context);
-                          if (result) {
-                            ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.productCreatedSuccessfully));
+                          if (isFeatured) {
+                            await makePayment().then((value) async {
+                              bool result = await _handleCreateProduct(context);
+                              if (result) {
+                                ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.productCreatedSuccessfully));
+                              }
+                            });
+                          } else {
+                            bool result = await _handleCreateProduct(context);
+                            if (result) {
+                              ScaffoldMessenger.of(context).showSnackBar(customSnackBar(AppLocalizations.of(context)!.productCreatedSuccessfully));
+                            }
                           }
                         }
                       }
@@ -407,6 +418,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
       Map<String, dynamic> body = {
         'amount': amount,
         'currency': currency,
+        'description': userProvider.user!.id,
+        "automatic_payment_methods[enabled]": 'true',
       };
 
       //Make post request to Stripe
