@@ -77,38 +77,40 @@ class SamplePaymentScreen extends StatelessWidget {
     String pp_TxnExpiryDateTime = dexpiredate.toString();
     String pp_TxnRefNo = tre.toString();
     String pp_TxnType = "MWALLET";
-    String ppmpf_1 = "4456733833993";
+    String ppmpf_1 = "03213456789";
+    // String ppmpf_1 = "4456733833993";
     String IntegeritySalt = "8259433b6f";
     String and = '&';
-    String superdata = IntegeritySalt +
-        and +
-        pp_Amount +
-        and +
-        pp_BillReference +
-        and +
-        pp_Description +
-        and +
-        pp_Language +
-        and +
-        pp_MerchantID +
-        and +
-        pp_Password +
-        and +
-        pp_ReturnURL +
-        and +
-        pp_TxnCurrency +
-        and +
-        pp_TxnDateTime +
-        and +
-        pp_TxnExpiryDateTime +
-        and +
-        pp_TxnRefNo +
-        and +
-        pp_TxnType +
-        and +
-        pp_ver +
-        and +
-        ppmpf_1;
+    // String superdata = IntegeritySalt +
+    //     and +
+    //     pp_Amount +
+    //     and +
+    //     pp_BillReference +
+    //     and +
+    //     pp_Description +
+    //     and +
+    //     pp_Language +
+    //     and +
+    //     pp_MerchantID +
+    //     and +
+    //     pp_Password +
+    //     and +
+    //     pp_ReturnURL +
+    //     and +
+    //     pp_TxnCurrency +
+    //     and +
+    //     pp_TxnDateTime +
+    //     and +
+    //     pp_TxnExpiryDateTime +
+    //     and +
+    //     pp_TxnRefNo +
+    //     and +
+    //     pp_TxnType +
+    //     and +
+    //     pp_ver +
+    //     and +
+    //     ppmpf_1;
+    String superdata = IntegeritySalt + and + pp_Amount + and + pp_MerchantID;
 
     var key = utf8.encode(IntegeritySalt);
     var bytes = utf8.encode(superdata);
@@ -169,8 +171,8 @@ class SamplePaymentScreen extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () async {
-          await _payViaJazzCash(productModel, context);
-          // await payment();
+          // await _payViaJazzCash(productModel, context);
+          await payment();
         },
         child: const Text("Pay"),
       ),
