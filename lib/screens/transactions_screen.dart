@@ -52,6 +52,13 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    fetchPaymentIntents();
+  }
+
+  @override
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserProvider>(context);
 
