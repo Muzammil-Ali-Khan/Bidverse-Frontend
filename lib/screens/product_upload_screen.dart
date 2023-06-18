@@ -38,8 +38,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
 
   // States
   File? image;
-  String imageUrl =
-      'https://media.istockphoto.com/id/1161352480/vector/sample-sign-sample-square-speech-bubble-sample.jpg?s=612x612&w=0&k=20&c=qZ480B32q1qGLxoTZEaXcxDB4BMCMDGAGnDQ0hEJ_I8=';
+  String imageUrl = "";
   bool isFeatured = false;
   DateTime selectedDate = DateTime.now();
   List<String> categories = ["Fashion", "Electronics", "Furnitures", "Others"];
