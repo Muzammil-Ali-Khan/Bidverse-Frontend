@@ -38,7 +38,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
 
   // States
   File? image;
-  String imageUrl = '';
+  String imageUrl =
+      'https://media.istockphoto.com/id/1161352480/vector/sample-sign-sample-square-speech-bubble-sample.jpg?s=612x612&w=0&k=20&c=qZ480B32q1qGLxoTZEaXcxDB4BMCMDGAGnDQ0hEJ_I8=';
   bool isFeatured = false;
   DateTime selectedDate = DateTime.now();
   List<String> categories = ["Fashion", "Electronics", "Furnitures", "Others"];
@@ -145,6 +146,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
     try {
       //STEP 1: Create Payment Intent
       var paymentIntent = await createPaymentIntent('100', 'USD');
+
+      print("Payment intent: $paymentIntent");
 
       //STEP 2: Initialize Payment Sheet
       await Stripe.instance
@@ -416,6 +419,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
       Map<String, dynamic> body = {
         'amount': amount,
         'currency': currency,
+        'description': userProvider.user!.id,
+        "automatic_payment_methods[enabled]": 'true',
       };
 
       //Make post request to Stripe
